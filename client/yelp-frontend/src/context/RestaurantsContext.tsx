@@ -1,15 +1,28 @@
 import React, { createContext, useState } from 'react';
 
+interface Restaurant {
+    id: number;
+    name: string;
+    location: string;
+    price_range: number;
+    // rating: number;
+}
+
 export const RestaurantsContext = createContext<RestaurantsContextType>({
     restaurants: [],
     setRestaurants: () => {},
-    addRestaurants: () => {}
+    addRestaurants: () => {},
+    selectedRestaurant: { id: 0, name: '', location: '', price_range: 0 },
+    setSelectedRestaurant: () => {}
 });
 
 interface RestaurantsContextType {
-    restaurants: any[]; // Replace `any` with a more specific type if known
-    setRestaurants: React.Dispatch<React.SetStateAction<any[]>>; // Replace `any` with a more specific type if known
-    addRestaurants: (restaurant: any) => void; // Replace `any` with a more specific type if known
+    restaurants: any[]; 
+    setRestaurants: React.Dispatch<React.SetStateAction<any[]>>; 
+    addRestaurants: (restaurant: any) => void; 
+    selectedRestaurant: Restaurant;
+    setSelectedRestaurant: React.Dispatch<React.SetStateAction<Restaurant>>;
+
 }
 
 interface RestaurantsContextProviderProps {
@@ -17,13 +30,19 @@ interface RestaurantsContextProviderProps {
 }
 
 export const RestaurantsContextProvider = (props: RestaurantsContextProviderProps) => {
-    const [restaurants, setRestaurants] = useState<any[]>([]); // Replace `any` with a more specific type if known
+    const [restaurants, setRestaurants] = useState<any[]>([]); 
+    const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant>({
+        id: 0,
+        name: '',
+        location: '',
+        price_range: 0
+    });
     const addRestaurants = (restaurant: any) => {
         setRestaurants([...restaurants, restaurant]);
     }
 
     return (
-        <RestaurantsContext.Provider value={{ restaurants, setRestaurants, addRestaurants } satisfies RestaurantsContextType}>
+        <RestaurantsContext.Provider value={{ restaurants, setRestaurants, addRestaurants, selectedRestaurant, setSelectedRestaurant } satisfies RestaurantsContextType}>
             {props.children}
         </RestaurantsContext.Provider>
     );
