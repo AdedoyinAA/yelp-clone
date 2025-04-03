@@ -1,18 +1,29 @@
 import React, { createContext, useState } from 'react';
 
-interface Restaurant {
+export interface Restaurant {
     id: number;
-    name: string;
     location: string;
+    name: string;
     price_range: number;
-    // rating: number;
+    count: number;
+    average_rating: number;
+    reviews: Review[];
 }
+
+export interface Review {
+    id: number;
+    restaurant_id: number;
+    name: string;
+    review: string;
+    rating: number;
+}
+
 
 export const RestaurantsContext = createContext<RestaurantsContextType>({
     restaurants: [],
     setRestaurants: () => {},
     addRestaurants: () => {},
-    selectedRestaurant: { id: 0, name: '', location: '', price_range: 0 },
+    selectedRestaurant: { id: 0, name: '', location: '', price_range: 0, count: 0, average_rating: 0, reviews: [] },
     setSelectedRestaurant: () => {}
 });
 
@@ -35,7 +46,10 @@ export const RestaurantsContextProvider = (props: RestaurantsContextProviderProp
         id: 0,
         name: '',
         location: '',
-        price_range: 0
+        price_range: 0,
+        count: 0,
+        average_rating: 0,
+        reviews: []
     });
     const addRestaurants = (restaurant: any) => {
         setRestaurants([...restaurants, restaurant]);

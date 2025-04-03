@@ -16,9 +16,9 @@ const UpdateRestaurant: React.FC<UpdateRestaurantProps> = (props) => {
             async function fetchData() {
                 try {
                     const response = await RestaurantFinder.get(`/${id}`);
-                    setName(response.data.data.restaurant.name);
-                    setLocation(response.data.data.restaurant.location);
-                    setPriceRange(response.data.data.restaurant.price_range);
+                    setName(response.data.data.name);
+                    setLocation(response.data.data.location);
+                    setPriceRange(response.data.data.price_range);
                 } catch (error) {
                     console.error("Error fetching restaurant details:", error);
                 }
