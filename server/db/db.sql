@@ -7,3 +7,5 @@ CREATE TABLE reviews (
 );
 
 INSERT INTO reviews (restaurant_id, name, review, rating) VALUES (5, 'Adedoyin', 'Shit was ass', 3);
+
+INSERT INTO restaurants (name, location, price_range) VALUES ("Chicken republic", "Nigeria", 3);
