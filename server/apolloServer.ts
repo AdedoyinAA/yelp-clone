@@ -55,8 +55,8 @@ const server = new ApolloServer({ typeDefs, resolvers });
 
 const port = process.env.PORT || 4000;
 
-server.listen(4000, () => {
-    console.log(`Server is running on http://localhost:${4000}${server.graphqlPath}`);
+server.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}${server.graphqlPath}`);
 })
 
 
