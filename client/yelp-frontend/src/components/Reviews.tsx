@@ -19,42 +19,6 @@ const Reviews: React.FC<Restaurant> = ({ reviews }) => {
                 </div>
             )
         })}
-        {/* <div className="card text-white bg-primary mb-3 mx-2" style={{maxWidth: "30%"}}>
-            <div className="card-header d-flex justify-content-between">
-                <span>Adedoyin</span>
-                <span><StarRating rating={3}/></span>
-            </div>
-            <div className="card-body">
-                <p className="card-text">This restaurant was ass</p>
-            </div>
-        </div>
-        <div className="card text-white bg-primary mb-3 mx-2" style={{maxWidth: "30%"}}>
-            <div className="card-header d-flex justify-content-between">
-                <span>Adedoyin</span>
-                <span><StarRating rating={3}/></span>
-            </div>
-            <div className="card-body">
-                <p className="card-text">This restaurant was ass</p>
-            </div>
-        </div>
-        <div className="card text-white bg-primary mb-3 mx-2" style={{maxWidth: "30%"}}>
-            <div className="card-header d-flex justify-content-between">
-                <span>Adedoyin</span>
-                <span><StarRating rating={3}/></span>
-            </div>
-            <div className="card-body">
-                <p className="card-text">This restaurant was ass</p>
-            </div>
-        </div>
-        <div className="card text-white bg-primary mb-3 mx-2" style={{maxWidth: "30%"}}>
-            <div className="card-header d-flex justify-content-between">
-                <span>Adedoyin</span>
-                <span><StarRating rating={3}/></span>
-            </div>
-            <div className="card-body">
-                <p className="card-text">This restaurant was ass</p>
-            </div>
-        </div> */}
     </div>
   )
 }

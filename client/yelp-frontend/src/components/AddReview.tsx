@@ -1,27 +1,18 @@
 import React, { useState } from 'react'
-import RestaurantFinder from '../apis/RestaurantFinder';
-import { useParams } from 'react-router-dom';
 
-const AddReview = () => {
-    const { id } = useParams();
+const AddReview: React.FC<{ onAddReview: (name: string, review: string, rating: number) => void }> = ({ onAddReview, }) => {
     const [name, setName] = useState("");
     const [reviewText, setReviewText] = useState("");
-    const [rating, setRating] = useState("Rating");
+    const [rating, setRating] = useState(1);
 
-
-    const handleSubmitReview = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            await RestaurantFinder.post(`/${id}/addReview`, {
-                name,
-                review: reviewText,
-                rating,
-            });
-            window.location.reload();
-        } catch (error) {
-            console.log(error);   
-        }
-    }
+        onAddReview(name, reviewText, rating);
+        setName("");
+        setReviewText("");
+        setRating(1);
+    };
+
     return (
         <div className="mb-2">
             <form action="">
@@ -30,9 +21,9 @@ const AddReview = () => {
                         <label htmlFor="name">Name</label>
                         <input value={name} onChange={e => setName(e.target.value)} id="name" type="text" className="form-control" />
                     </div>
-                    <div className="form-group col-4 mx-4">
+                    <div className="form-group col-4 mx-2">
                         <label htmlFor="rating">Rating</label>
-                        <select value={rating} onChange={e => setRating(e.target.value)} className="form-select" id="rating">
+                        <select value={rating} onChange={e => setRating(parseInt(e.target.value))} className="form-select" id="rating">
                             <option disabled>Rating</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -46,7 +37,7 @@ const AddReview = () => {
                     <label htmlFor="review">Review</label>
                     <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} id="review" className="form-control"></textarea>
                 </div>
-                <button type="submit" onClick={handleSubmitReview} className="btn btn-primary">Submit</button>
+                <button type="submit" onClick={handleSubmit} className="btn btn-primary">Submit</button>
             </form>
         </div>
     )
