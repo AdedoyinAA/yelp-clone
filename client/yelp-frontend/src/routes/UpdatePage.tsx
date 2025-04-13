@@ -4,7 +4,7 @@ import UpdateRestaurant from '../components/UpdateRestaurant'
 const UpdatePage = () => {
   return (
     <div>
-      <h1 className='text-center my-5'>Update Restaurant</h1>
+      <h1 className='text-center display-1 my-5'>Update Restaurant</h1>
       <UpdateRestaurant/>
     </div>
   )
