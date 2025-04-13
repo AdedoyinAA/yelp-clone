@@ -7,11 +7,11 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 const GET_RESTAURANTS = gql`
     query GetRestaurants {
         restaurants {
-            id
-            name
-            location
-            price_range
-            count
+            id,
+            name,
+            location,
+            price_range,
+            count,
             average_rating
         }
     }
@@ -24,9 +24,6 @@ const DELETE_RESTAURANT = gql`
     }
   }
 `;
-
-
-
 
 const RestaurantList = () => {
     const [deleteRestaurant] = useMutation(DELETE_RESTAURANT);
