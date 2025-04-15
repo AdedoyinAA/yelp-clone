@@ -1,0 +1,17 @@
+  query GetRestaurantDetails($id: ID!) {
+    restaurant(id: $id) {
+      id,
+      name, 
+      location,
+      price_range,
+      count,
+      average_rating,
+      reviews {
+        id, 
+        restaurant_id,
+        name,
+        review,
+        rating
+      }
+    }
+  }

@@ -2,21 +2,9 @@ import React, {useContext} from 'react'
 import { RestaurantsContext } from '../context/RestaurantsContext'
 import { useNavigate } from 'react-router-dom'
 import StarRating from './StarRating';
-import { gql, useMutation } from '@apollo/client';
-import { useGetRestaurantsQuery } from '../graphql/generated/schema';
-
-
-
-const DELETE_RESTAURANT = gql`
-  mutation DeleteRestaurant($id: ID!) {
-    deleteRestaurant(id: $id) {
-      id
-    }
-  }
-`;
 
 const RestaurantList = () => {
-    const [deleteRestaurant] = useMutation(DELETE_RESTAURANT);
+    const [deleteRestaurant] = useDeleteRestaurantMutation();
     const {setRestaurants} = useContext(RestaurantsContext);
     const navigate = useNavigate();
     const { loading, error, data } = useGetRestaurantsQuery( {
@@ -32,7 +20,7 @@ const RestaurantList = () => {
         navigate(`/restaurants/${id}`);
     };
     
-    const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.stopPropagation();
         window.location.reload();
         try {

@@ -1,29 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { gql, useMutation, useQuery } from '@apollo/client';
-
-const GET_RESTAURANT = gql`
-    query GetRestaurant($id: ID!) {
-        restaurant(id: $id) {
-            id,
-            name,
-            location,
-            price_range
-        }
-    }
-`;
-
-const UPDATE_RESTAURANT = gql`
-    mutation UpdateRestaurant($id: ID!, $name: String!, $location: String!, $price_range: Int!) {
-        updateRestaurant(id: $id, name: $name, location: $location, price_range: $price_range) {
-            id, 
-            name, 
-            location,
-            price_range
-        }    
-    }  
-`;
-
+import { useGetRestaurantQuery, useUpdateRestaurantMutation } from '../graphql/generated/schema';
 
 const UpdateRestaurant: React.FC = () => {
     const { id } = useParams();
@@ -33,23 +10,25 @@ const UpdateRestaurant: React.FC = () => {
     const [priceRange, setPriceRange] = useState(0);
 
     // Fetch restaurant details
-    const { loading, error } = useQuery(GET_RESTAURANT, {
-        variables: { id },
+    const { loading, error } = useGetRestaurantQuery({
+        variables: { id: id || '' },
         onCompleted: (data) => {
-            setName(data.restaurant[0].name);
-            setLocation(data.restaurant[0].location);
-            setPriceRange(data.restaurant[0].price_range);
+            if (data.restaurant && data.restaurant[0]) {
+                setName(data.restaurant[0].name);
+                setLocation(data.restaurant[0].location);
+                setPriceRange(data.restaurant[0].price_range);
+            }
         }
     });
 
-    const [updateRestaurant] = useMutation(UPDATE_RESTAURANT);
+    const [updateRestaurant] = useUpdateRestaurantMutation();
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await updateRestaurant({
                 variables: {
-                    id, 
+                    id: id || '', 
                     name, 
                     location,
                     price_range: priceRange,

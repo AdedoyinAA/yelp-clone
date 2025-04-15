@@ -1,17 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { RestaurantsContext } from '../context/RestaurantsContext';
-import { gql, useMutation } from '@apollo/client';
+import { useAddRestaurantMutation } from '../graphql/generated/schema';
 
-const ADD_RESTAURANT = gql`
-    mutation AddRestaurant($name: String!, $location: String!, $price_range: Int!) {
-        addRestaurant(name: $name, location: $location, price_range: $price_range) {
-            id
-            name
-            location
-            price_range
-        }
-    }
-`;
+
 
 const AddRestaurant = () => {
     const {setRestaurants} = useContext(RestaurantsContext);
@@ -19,7 +10,7 @@ const AddRestaurant = () => {
     const [location, setLocation] =  useState("");
     const [priceRange, setPriceRange] =  useState<number>("Price Range" as unknown as number);
 
-    const [addRestaurant] = useMutation(ADD_RESTAURANT, {
+    const [addRestaurant] = useAddRestaurantMutation({
         onCompleted: (data) => {
             setRestaurants((prev: any) => [...prev, data.addRestaurant]);
         },

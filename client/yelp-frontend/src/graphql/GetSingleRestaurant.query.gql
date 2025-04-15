@@ -1,0 +1,8 @@
+query GetRestaurant($id: ID!) {
+        restaurant(id: $id) {
+            id,
+            name,
+            location,
+            price_range
+        }
+    }
