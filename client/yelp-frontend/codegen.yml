@@ -1,0 +1,13 @@
+overwrite: true
+schema: "http://localhost:3000/graphql" # URL of your GraphQL server
+documents: "**/*.{gql,graphql}" # Path to your GraphQL operations
+generates:
+  ./src/graphql/generated/schema.ts: # Output file for generated code
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true # Generate React hooks for queries and mutations
+      withHOC: false
+      withComponent: false
