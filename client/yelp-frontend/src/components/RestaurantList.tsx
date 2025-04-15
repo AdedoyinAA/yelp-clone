@@ -2,20 +2,9 @@ import React, {useContext} from 'react'
 import { RestaurantsContext } from '../context/RestaurantsContext'
 import { useNavigate } from 'react-router-dom'
 import StarRating from './StarRating';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
+import { useGetRestaurantsQuery } from '../graphql/generated/schema';
 
-const GET_RESTAURANTS = gql`
-    query GetRestaurants {
-        restaurants {
-            id,
-            name,
-            location,
-            price_range,
-            count,
-            average_rating
-        }
-    }
-`;
 
 const DELETE_RESTAURANT = gql`
   mutation DeleteRestaurant($id: ID!) {
@@ -29,9 +18,9 @@ const RestaurantList = () => {
     const [deleteRestaurant] = useMutation(DELETE_RESTAURANT);
     const {setRestaurants} = useContext(RestaurantsContext);
     const navigate = useNavigate();
-    const { loading, error, data } = useQuery(GET_RESTAURANTS, {
+    const { loading, error, data } = useGetRestaurantsQuery( {
         onCompleted: (data) => {
-            setRestaurants(data.restaurants);
+            setRestaurants(data.restaurants ?? []);
         }
     });
 
@@ -87,7 +76,7 @@ const RestaurantList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.restaurants && data.restaurants.map((restaurant: any) => (
+                    {data?.restaurants && data.restaurants.map((restaurant: any) => (
                         <tr key={restaurant.id} onClick={() => handleRestaurantSelect(restaurant.id)}>
                             <td>{restaurant.name}</td>
                             <td>{restaurant.location}</td>
@@ -97,8 +86,8 @@ const RestaurantList = () => {
                             </td>
                             <td>
                                 <button 
-                                        onClick={(e) => handleUpdate(e, restaurant.id)}
-                                        className="btn btn-warning"
+                                    onClick={(e) => handleUpdate(e, restaurant.id)}
+                                    className="btn btn-warning"
                                 >
                                     Update
                                 </button>

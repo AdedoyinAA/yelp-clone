@@ -5,9 +5,9 @@ import { gql, useMutation } from '@apollo/client';
 const ADD_RESTAURANT = gql`
     mutation AddRestaurant($name: String!, $location: String!, $price_range: Int!) {
         addRestaurant(name: $name, location: $location, price_range: $price_range) {
-            id,
-            name,
-            location, 
+            id
+            name
+            location
             price_range
         }
     }
@@ -27,7 +27,7 @@ const AddRestaurant = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await addRestaurant({variables: {name: name, location: location, price_range: priceRange}});
+        await addRestaurant({ variables: { name: name, location: location, price_range: priceRange }});
         window.location.reload();
     };
 
