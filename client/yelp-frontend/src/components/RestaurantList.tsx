@@ -2,8 +2,6 @@ import React, {useContext} from 'react'
 import { RestaurantsContext } from '../context/RestaurantsContext'
 import { useNavigate } from 'react-router-dom'
 import StarRating from './StarRating';
-import { useGetRestaurantsQuery, useDeleteRestaurantMutation } from '../graphql/generated/schema';
-
 
 const RestaurantList = () => {
     const [deleteRestaurant] = useDeleteRestaurantMutation();
