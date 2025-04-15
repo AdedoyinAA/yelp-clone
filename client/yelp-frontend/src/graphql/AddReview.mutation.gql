@@ -1,0 +1,8 @@
+  mutation AddReview($restaurant_id: Int!, $name: String!, $review: String!, $rating: Int!) {
+    addReview(restaurant_id: $restaurant_id, name: $name, review: $review, rating: $rating) {
+      id, 
+      name, 
+      review,
+      rating
+    }
+  }

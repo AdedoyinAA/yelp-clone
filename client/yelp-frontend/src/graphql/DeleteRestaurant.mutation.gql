@@ -1,0 +1,5 @@
+mutation DeleteRestaurant($id: ID!) {
+  deleteRestaurant(id: $id) {
+    id
+  }
+}

@@ -2,63 +2,42 @@ import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { RestaurantsContext } from '../context/RestaurantsContext';
 import StarRating from '../components/StarRating';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import AddReview from '../components/AddReview';
 import Reviews from '../components/Reviews';
+import { useGetRestaurantDetailsQuery, useAddReviewMutation, GetRestaurantDetailsDocument } from '../graphql/generated/schema';
+import { Review } from '../context/RestaurantsContext';
 
-const GET_RESTAURANT_DETAILS = gql`
-  query GetRestaurantDetails($id: ID!) {
-    restaurant(id: $id) {
-      id,
-      name, 
-      location,
-      price_range,
-      count,
-      average_rating,
-      reviews {
-        id, 
-        restaurant_id,
-        name,
-        review,
-        rating
-      }
-    }
-  }
-`;
-
-const ADD_REVIEW = gql`
-  mutation AddReview($restaurant_id: Int!, $name: String!, $review: String!, $rating: Int!) {
-    addReview(restaurant_id: $restaurant_id, name: $name, review: $review, rating: $rating) {
-      id, 
-      name, 
-      review,
-      rating
-    }
-  }
-`;
 
 const RestaurantDetailPage = () => {
   const { id } = useParams();
   const { setSelectedRestaurant } = useContext(RestaurantsContext);
 
   // Fetch restaurant details
-  const { data, loading, error } = useQuery(GET_RESTAURANT_DETAILS, {
-    variables: { id },
+  const { data, loading, error } = useGetRestaurantDetailsQuery({
+    variables: { id: id || "" },
     onCompleted: (data) => {
-      setSelectedRestaurant(data.restaurant[0]);
+      if (data?.restaurant?.[0]) {
+        setSelectedRestaurant({
+          ...data.restaurant[0],
+          id: parseInt(data.restaurant[0].id, 10),
+          count: data.restaurant[0].count ?? 0, // Provide a default value for count
+          average_rating: data.restaurant[0].average_rating ?? 0, // Provide a default value for average_rating
+          reviews: (data.restaurant[0].reviews ?? []).filter((review): review is Review => review !== null), // Ensure reviews is a non-nullable array
+        });
+      }
     },
   });
 
   // Mutation for adding a review
-  const [addReview] = useMutation(ADD_REVIEW, {
-    refetchQueries: [{ query: GET_RESTAURANT_DETAILS, variables: { id } }],
+  const [addReview] = useAddReviewMutation({
+    refetchQueries: [{ query: GetRestaurantDetailsDocument, variables: { id } }],
   });
 
   const handleAddReview = async (name: string, review: string, rating: number) => {
     try {
       await addReview({
         variables: {
-          restaurant_id: parseInt(id!), // Ensure id is a number
+          restaurant_id: parseInt(id!), 
           name,
           review,
           rating,
@@ -72,7 +51,7 @@ const RestaurantDetailPage = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const selectedRestaurant = data?.restaurant[0];
+  const selectedRestaurant = data?.restaurant?.[0] ?? null;
 
   return (
     <div className='my-5'>
@@ -82,13 +61,13 @@ const RestaurantDetailPage = () => {
             {selectedRestaurant.name}
           </h1>
           <div className="text text-center">
-            <StarRating rating={selectedRestaurant.average_rating}/> 
+            <StarRating rating={selectedRestaurant.average_rating ?? 0}/> 
             <span className="text-warning ml-1">
               {selectedRestaurant.count ? `(${selectedRestaurant.count})` : "(0)"}
             </span>
           </div>
           <div className="mt-3">
-            <Reviews id={selectedRestaurant.id} name={selectedRestaurant.name} location={selectedRestaurant.location} price_range={selectedRestaurant.price_range} count={selectedRestaurant.count} average_rating={selectedRestaurant.average_rating} reviews={selectedRestaurant.reviews} />
+            <Reviews id={parseInt(selectedRestaurant.id)} name={selectedRestaurant.name} location={selectedRestaurant.location} price_range={selectedRestaurant.price_range} count={selectedRestaurant.count ?? 0} average_rating={selectedRestaurant.average_rating ?? 0} reviews={(selectedRestaurant.reviews ?? []).filter((review): review is Review => review !== null)} />
           </div>
           <AddReview onAddReview={handleAddReview}/>
         </>

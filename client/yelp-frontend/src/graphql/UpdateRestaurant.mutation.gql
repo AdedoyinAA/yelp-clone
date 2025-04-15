@@ -1,0 +1,8 @@
+    mutation UpdateRestaurant($id: ID!, $name: String!, $location: String!, $price_range: Int!) {
+        updateRestaurant(id: $id, name: $name, location: $location, price_range: $price_range) {
+            id 
+            name
+            location
+            price_range
+        }    
+    }  

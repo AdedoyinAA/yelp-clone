@@ -11,7 +11,7 @@ export interface Restaurant {
 }
 
 export interface Review {
-    id: number;
+    id: string;
     restaurant_id: number;
     name: string;
     review: string;
@@ -24,7 +24,7 @@ export const RestaurantsContext = createContext<RestaurantsContextType>({
     setRestaurants: () => {},
     addRestaurants: () => {},
     selectedRestaurant: { id: 0, name: '', location: '', price_range: 0, count: 0, average_rating: 0, reviews: [] },
-    setSelectedRestaurant: () => {}
+    setSelectedRestaurant: () => {},
 });
 
 interface RestaurantsContextType {
