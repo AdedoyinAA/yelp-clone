@@ -6,6 +6,7 @@ import { gql, useMutation } from '@apollo/client';
 import { useGetRestaurantsQuery } from '../graphql/generated/schema';
 
 
+
 const DELETE_RESTAURANT = gql`
   mutation DeleteRestaurant($id: ID!) {
     deleteRestaurant(id: $id) {
