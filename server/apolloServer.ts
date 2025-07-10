@@ -1,5 +1,4 @@
 import { ApolloServer, gql } from 'apollo-server';
-import express from 'express';
 import { config } from 'dotenv';
 import { typeDefs } from './schema';
 
