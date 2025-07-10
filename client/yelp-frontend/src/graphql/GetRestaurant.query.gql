@@ -1,0 +1,10 @@
+query GetRestaurants {
+        restaurants {
+            id,
+            name,
+            location,
+            price_range,
+            count,
+            average_rating
+        }
+}
