@@ -3,7 +3,6 @@ import { config } from 'dotenv';
 import { typeDefs } from './schema';
 
 config();
-// const app = express();
 const db = require('./db');
 
 const resolvers = {
